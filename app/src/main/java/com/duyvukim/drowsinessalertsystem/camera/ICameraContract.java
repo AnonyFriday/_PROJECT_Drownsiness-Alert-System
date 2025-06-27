@@ -7,7 +7,7 @@ public interface ICameraContract {
     interface View {
         void showAlert();
 
-        void showMessage();
+        void showMessage(String msg);
     }
 
     interface Presenter {

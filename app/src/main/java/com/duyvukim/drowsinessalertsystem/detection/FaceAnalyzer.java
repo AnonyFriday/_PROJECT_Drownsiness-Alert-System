@@ -14,10 +14,10 @@ import com.google.mlkit.vision.face.FaceDetectorOptions;
 public class FaceAnalyzer {
 
     private final FaceDetector faceDetector;
-    private final IFaceCallback faceCallback;
+    private final IEyeDetectorCallbacks faceCallback;
     private final FaceDetectorOptions faceDetectorOptions;
 
-    public FaceAnalyzer(IFaceCallback faceCallback) {
+    public FaceAnalyzer(IEyeDetectorCallbacks faceCallback) {
         this.faceCallback = faceCallback;
 
         // Build the face detector with the custom options
@@ -49,6 +49,8 @@ public class FaceAnalyzer {
         faceDetector.process(inputImage)
                 .addOnSuccessListener(faces -> {
                     for (Face face : faces) {
+
+//                        Log.d("FaceAnalyzer", "Face detected: " + faces.size());
 
                         // pass the face to the callback if detected
                         faceCallback.onFaceDetected(face);
