@@ -13,8 +13,16 @@ import com.duyvukim.drowsinessalertsystem.databinding.ActivityCameraBinding;
 
 public class CameraActivity extends AppCompatActivity implements ICameraContract.View {
 
+    // =========================================
+    // === Fields
+    // =========================================
+
     private ActivityCameraBinding binding;
     private ICameraContract.Presenter presenter;
+
+    // =========================================
+    // === Lifecycle
+    // =========================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,10 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
 
         // TODO: ask for notification permission setup
     }
+
+    // =========================================
+    // === Methods
+    // =========================================
 
     @Override
     public void showAlert() {

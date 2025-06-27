@@ -20,9 +20,17 @@ import com.google.common.util.concurrent.ListenableFuture;
  */
 public class CameraFramesSource {
 
+    // =========================================
+    // === Fields
+    // =========================================
+
     private PreviewView previewView;
     private LifecycleOwner lifecycleOwner;
     private ICameraFramesSourceCallbacks callbacks;
+
+    // =========================================
+    // === Constructors
+    // =========================================
 
     public CameraFramesSource(
             PreviewView previewView,
@@ -33,6 +41,10 @@ public class CameraFramesSource {
         this.lifecycleOwner = lifecycleOwner;
         this.callbacks = callbacks;
     }
+
+    // =========================================
+    // === Methods
+    // =========================================
 
     public void start() {
         // Using listenable future to get the camera provider back

@@ -14,7 +14,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class NotificationFMService extends FirebaseMessagingService {
-    
 
     /**
      * Called when a message is received.

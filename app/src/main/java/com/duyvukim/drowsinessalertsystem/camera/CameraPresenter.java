@@ -11,11 +11,23 @@ import com.duyvukim.drowsinessalertsystem.detection.FaceAnalyzer;
 
 public class CameraPresenter implements ICameraContract.Presenter {
 
+    // =========================================
+    // === Fields
+    // =========================================
+
     private ICameraContract.View view;
+
+    // =========================================
+    // === Constructors
+    // =========================================
 
     public CameraPresenter(ICameraContract.View view) {
         this.view = view;
     }
+
+    // =========================================
+    // === Methods
+    // =========================================
 
     @SuppressLint("UnsafeOptInUsageError")
     @Override
@@ -28,16 +40,14 @@ public class CameraPresenter implements ICameraContract.Presenter {
             // through the EyeDetector
 
             new FaceAnalyzer(face -> {
-
                 if (face != null && EyeDetector.isDrowsy(face)) {
 
                     // TODO: implement the alarm and notification
+                    // TODO: might be trigger after 10,20 consecutive frames closing, not everytime closing
 
                     Log.d("Drowsiness", "Drowsy");
                     view.showMessage("Drowsiness detected");
                 }
-
-
             }).analyzeImageFrame(imageProxy);
 
         }).start();

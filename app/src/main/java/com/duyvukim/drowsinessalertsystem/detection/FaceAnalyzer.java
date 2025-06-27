@@ -13,9 +13,17 @@ import com.google.mlkit.vision.face.FaceDetectorOptions;
 
 public class FaceAnalyzer {
 
+    // =========================================
+    // === Fields
+    // =========================================
+
     private final FaceDetector faceDetector;
     private final IEyeDetectorCallbacks faceCallback;
     private final FaceDetectorOptions faceDetectorOptions;
+
+    // =========================================
+    // === Constructors
+    // =========================================
 
     public FaceAnalyzer(IEyeDetectorCallbacks faceCallback) {
         this.faceCallback = faceCallback;
@@ -30,6 +38,10 @@ public class FaceAnalyzer {
         this.faceDetector = FaceDetection.getClient(faceDetectorOptions);
     }
 
+    // =========================================
+    // === Methods
+    // =========================================
+
     /**
      * Analyze the image frame from the camera
      *
@@ -38,7 +50,7 @@ public class FaceAnalyzer {
     @ExperimentalGetImage
     public void analyzeImageFrame(ImageProxy imageProxy) {
 
-        // analzye the image frame by frame captured from the camera
+        // analyze the image frame by frame captured from the camera
         // CameraX wraps frame of image into the ImageProxy and send to the analyzer
         Image imageFrame = imageProxy.getImage();
         if (imageFrame == null) return;
@@ -50,8 +62,6 @@ public class FaceAnalyzer {
         faceDetector.process(inputImage)
                 .addOnSuccessListener(faces -> {
                     for (Face face : faces) {
-
-//                        Log.d("FaceAnalyzer", "Face detected: " + faces.size());
 
                         // pass the face to the callback if detected
                         faceCallback.onFaceDetected(face);
