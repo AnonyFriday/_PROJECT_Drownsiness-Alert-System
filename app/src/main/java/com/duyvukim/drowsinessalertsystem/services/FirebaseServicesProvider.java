@@ -1,8 +1,9 @@
 package com.duyvukim.drowsinessalertsystem.services;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-public class FirebaseServices {
+public class FirebaseServicesProvider {
 
     public static final FirebaseFirestore getFirebaseFirestore() {
         return FirebaseFirestore.getInstance();
