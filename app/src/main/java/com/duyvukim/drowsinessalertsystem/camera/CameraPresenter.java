@@ -29,15 +29,15 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
             new FaceAnalyzer(face -> {
 
-//                Log.d("Face", "Face detected" + face.getTrackingId());
-
-                if (EyeDetector.isDrowsy(face)) {
+                if (face != null && EyeDetector.isDrowsy(face)) {
 
                     // TODO: implement the alarm and notification
 
                     Log.d("Drowsiness", "Drowsy");
                     view.showMessage("Drowsiness detected");
                 }
+
+
             }).analyzeImageFrame(imageProxy);
 
         }).start();

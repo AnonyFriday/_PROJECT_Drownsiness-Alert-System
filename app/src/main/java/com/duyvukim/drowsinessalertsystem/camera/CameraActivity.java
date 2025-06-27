@@ -38,9 +38,9 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
         // Start the camera stream
         presenter.startCamera(binding.previewView, this);
 
-        // TODO: ask for camera permission
+        // TODO: ask for camera permission setup
 
-        // TODO: ask for notification permission
+        // TODO: ask for notification permission setup
     }
 
     @Override

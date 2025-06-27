@@ -41,11 +41,9 @@ dependencies {
     // - cloud firestore
     // - face detection ML Kit
     // - CameraX
-    // - analytics
     // - cloud messaging
     // - cloud functions
     // - crashlytics
-    // - cameraX
 
     implementation platform('com.google.firebase:firebase-bom:33.16.0')
     implementation("com.google.firebase:firebase-crashlytics")

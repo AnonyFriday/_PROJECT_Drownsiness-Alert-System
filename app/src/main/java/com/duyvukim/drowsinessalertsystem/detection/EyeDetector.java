@@ -10,15 +10,16 @@ public class EyeDetector {
         Float leftProb = face.getLeftEyeOpenProbability();
         Float rightProb = face.getRightEyeOpenProbability();
 
+        Log.d("Face", "Face: " + face);
+        Log.d("EyeProb", "Left: " + leftProb);
+        Log.d("EyeProb", "Right: " + leftProb);
+
         // If both eyes are closed, consider the person as drowsy
         // 1: eye is fully open
         // 0: eye is fully closed
 
-        boolean isLeftEyeSleep = leftProb != null && leftProb < 0.7f;
-        boolean isRightEyeSleep = rightProb != null && rightProb < 0.7f;
-
-        Log.d("EyeProb", "Left: " + isLeftEyeSleep);
-        Log.d("EyeProb", "Right: " + isLeftEyeSleep);
+        boolean isLeftEyeSleep = leftProb != null && leftProb < 0.3f;
+        boolean isRightEyeSleep = rightProb != null && rightProb < 0.3f;
 
         return isLeftEyeSleep || isRightEyeSleep;
     }

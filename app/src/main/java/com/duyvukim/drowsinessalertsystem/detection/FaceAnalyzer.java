@@ -24,6 +24,7 @@ public class FaceAnalyzer {
         faceDetectorOptions = new FaceDetectorOptions.Builder()
                 .enableTracking() // for real time frames
                 .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+                .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
                 .build();
 
         this.faceDetector = FaceDetection.getClient(faceDetectorOptions);
