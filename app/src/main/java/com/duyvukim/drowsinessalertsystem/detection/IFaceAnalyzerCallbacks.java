@@ -2,7 +2,7 @@ package com.duyvukim.drowsinessalertsystem.detection;
 
 import com.google.mlkit.vision.face.Face;
 
-public interface IEyeDetectorCallbacks {
+public interface IFaceAnalyzerCallbacks {
 
     /**
      * This image will be called when the face is detected

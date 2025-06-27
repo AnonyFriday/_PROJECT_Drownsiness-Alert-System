@@ -36,7 +36,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
     @Override
     public void startCamera(PreviewView previewView, LifecycleOwner lifecycleOwner) {
 
-        // TODO: Run at different executor service
+        // TODO: Run at different executor service for detection
 
         // Initialize the camera and start preview
         cameraFramesSource = new CameraFramesSource(previewView, lifecycleOwner, imageProxy -> {
@@ -56,7 +56,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
                         // TODO: implement the alarm and notification
                         // TODO: set the flag for alarm, alarm whenever it was turned off and notification
 
-                        Log.d("Drowsiness", "Drowsy");
+                        Log.d("Drowsiness", "Drownsy");
                         view.showMessage("Drowsiness detected");
                     }
                 } else {

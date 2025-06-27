@@ -18,14 +18,14 @@ public class FaceAnalyzer {
     // =========================================
 
     private final FaceDetector faceDetector;
-    private final IEyeDetectorCallbacks faceCallback;
+    private final IFaceAnalyzerCallbacks faceCallback;
     private final FaceDetectorOptions faceDetectorOptions;
 
     // =========================================
     // === Constructors
     // =========================================
 
-    public FaceAnalyzer(IEyeDetectorCallbacks faceCallback) {
+    public FaceAnalyzer(IFaceAnalyzerCallbacks faceCallback) {
         this.faceCallback = faceCallback;
 
         // Build the face detector with the custom options
