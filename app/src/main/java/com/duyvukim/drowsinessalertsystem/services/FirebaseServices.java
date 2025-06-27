@@ -7,4 +7,8 @@ public class FirebaseServices {
     public static final FirebaseFirestore getFirebaseFirestore() {
         return FirebaseFirestore.getInstance();
     }
+
+    public static final FirebaseMessaging getFirebaseMessaging() {
+        return FirebaseMessaging.getInstance();
+    }
 }
