@@ -1,8 +1,14 @@
 package com.duyvukim.drowsinessalertsystem.utils;
 
 public class AppCts {
-    public class Notifications {
+    public static class Notifications {
         public final static String NOTIFICATION_CHANNEL = "drowsy_alert";
         public final static int NOTIFICATION_ID = 2001;
+    }
+
+    public static class Thresholds {
+        public final static int FRAMES_CLOSED_THRESHOLD = 100;
+        public final static float LEFT_EYE_CLOSED_THRESHOLD = 0.2f;
+        public final static float RIGHT_EYE_CLOSED_THRESHOLD = 0.2f;
     }
 }

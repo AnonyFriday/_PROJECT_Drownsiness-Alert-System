@@ -2,6 +2,7 @@ package com.duyvukim.drowsinessalertsystem.detection;
 
 import android.util.Log;
 
+import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.google.mlkit.vision.face.Face;
 
 public class EyeDetector {
@@ -18,8 +19,8 @@ public class EyeDetector {
         // 1: eye is fully open
         // 0: eye is fully closed
 
-        boolean isLeftEyeSleep = leftProb != null && leftProb < 0.3f;
-        boolean isRightEyeSleep = rightProb != null && rightProb < 0.3f;
+        boolean isLeftEyeSleep = leftProb != null && leftProb < AppCts.Thresholds.LEFT_EYE_CLOSED_THRESHOLD;
+        boolean isRightEyeSleep = rightProb != null && rightProb < AppCts.Thresholds.RIGHT_EYE_CLOSED_THRESHOLD;
 
         return isLeftEyeSleep || isRightEyeSleep;
     }
