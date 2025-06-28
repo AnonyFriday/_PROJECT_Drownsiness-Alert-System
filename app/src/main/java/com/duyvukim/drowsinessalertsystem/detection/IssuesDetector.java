@@ -11,7 +11,6 @@ public class IssuesDetector {
         float HEAD_PITCH_THRESHOLD = 60.0f; // Rotation around X-axis (up-down head tilt)
         float HEAD_ROLL_THRESHOLD = 45.0f; // Rotation around Z-axis (sideways head tilt)
 
-
         float headYaw = face.getHeadEulerAngleY();   // Y-axis rotation (left/right)
         float headPitch = face.getHeadEulerAngleX(); // X-axis rotation (up/down)
         float headRoll = face.getHeadEulerAngleZ();  // Z-axis rotation (sideways tilt)
@@ -46,6 +45,8 @@ public class IssuesDetector {
         return "Looking Straight";
 
     }
+
+
     public static boolean isDrowsy(Face face) {
 
         Float leftProb = face.getLeftEyeOpenProbability();

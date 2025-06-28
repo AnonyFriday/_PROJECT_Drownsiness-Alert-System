@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.camera.view.PreviewView;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.duyvukim.drowsinessalertsystem.detection.IssuesDetector;
 import com.duyvukim.drowsinessalertsystem.detection.FaceAnalyzer;
+import com.duyvukim.drowsinessalertsystem.detection.IssuesDetector;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 
 public class CameraPresenter implements ICameraContract.Presenter {
@@ -48,28 +48,28 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
                 frameClosedEyesCounter++;
 
-                if (face != null) {
-                    if (IssuesDetector.isDrowsy(face)) {
-                        // might be trigger after 200 consecutive frames closing, not everytime closing
-                        if (frameClosedEyesCounter > AppCts.Thresholds.FRAMES_CLOSED_THRESHOLD) {
+                // If not having face, return
+                if (face == null) return;
 
-                            // TODO: implement the alarm and notification
-                            // TODO: set the flag for alarm, alarm whenever it was turned off and notification
+                if (IssuesDetector.isDrowsy(face)) {
+                    // might be trigger after 200 consecutive frames closing, not everytime closing
+                    if (frameClosedEyesCounter > AppCts.Thresholds.FRAMES_CLOSED_THRESHOLD) {
 
-                            Log.d("Drowsiness", "Drownsy");
-                            view.showMessage("Drowsiness detected");
-                        }
+                        // TODO: implement the alarm and notification
+                        // TODO: set the flag for alarm, alarm whenever it was turned off and notification
+
+                        Log.d("Drowsiness", "Drownsy");
+                        view.showMessage("Drowsiness detected");
                     }
-
-                    String headPoseResult = IssuesDetector.HeadPoseDetection(face); // Call the updated method
-                    Log.d("HeadPoseDetection", "Head Pose: " + headPoseResult);
-//                    if (!headPoseResult.equals("Looking Straight") && !headPoseResult.equals("No Face Detected")) {
-//                        view.showMessage(headPoseResult);
-//                    }
-
                 } else {
                     frameClosedEyesCounter = 0;
                 }
+
+//                    String headPoseResult = IssuesDetector.HeadPoseDetection(face); // Call the updated method
+//                    Log.d("HeadPoseDetection", "Head Pose: " + headPoseResult);
+////                    if (!headPoseResult.equals("Looking Straight") && !headPoseResult.equals("No Face Detected")) {
+////                        view.showMessage(headPoseResult);
+////                    }
             }).analyzeImageFrame(imageProxy);
         });
 

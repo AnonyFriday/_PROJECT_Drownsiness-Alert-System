@@ -63,6 +63,8 @@ public class FaceAnalyzer {
                 .addOnSuccessListener(faces -> {
                     for (Face face : faces) {
 
+//                        Log.d("FaceAnalyzer", "Face detected: " + faces.size());
+
                         // pass the face to the callback if detected
                         faceCallback.onFaceDetected(face);
                     }
