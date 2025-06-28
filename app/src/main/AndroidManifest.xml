@@ -3,7 +3,9 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" /> <!-- Permissions -->
+        android:required="false" />
+
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -21,16 +23,18 @@
         <activity
             android:name=".camera.CameraActivity"
             android:exported="false" />
+
         <!-- Activities -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Services -->
+        </activity>
+
+        <!-- Services -->
         <service
             android:name=".services.NotificationFMService"
             android:exported="false">

@@ -2,6 +2,7 @@ package com.duyvukim.drowsinessalertsystem;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.duyvukim.drowsinessalertsystem.camera.CameraActivity;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton joinExamButton;
 
     private ActivityMainBinding binding;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
