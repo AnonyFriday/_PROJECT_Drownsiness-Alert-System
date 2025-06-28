@@ -29,7 +29,6 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-
         // Setup bindings
         binding = ActivityCameraBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

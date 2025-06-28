@@ -16,8 +16,17 @@ import com.duyvukim.drowsinessalertsystem.databinding.ActivityMainBinding;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 
 public class MainActivity extends AppCompatActivity {
+
+    // ====================================
+    // === Fields
+    // ====================================
+
     private ActivityMainBinding binding;
-    
+
+    // ====================================
+    // === Lifecycles
+    // ====================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +43,16 @@ public class MainActivity extends AppCompatActivity {
                 return ;
             }
 
-            if (code.equals(AppCts.Notifications.EXAM_CODE))
+            if (code.equals(AppCts.Identities.EXAM_CODE))
                 startActivity(new Intent(MainActivity.this, CameraActivity.class));
             else binding.examCodeInput.setError("Code isn't found");
         });
     }
 
-    // --- Camera Permission ---
+    // ====================================
+    // === Camera Permission
+    // ====================================
+
     private final ActivityResultLauncher<String> requestCameraPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {

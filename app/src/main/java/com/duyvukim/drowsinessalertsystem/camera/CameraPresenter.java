@@ -1,14 +1,15 @@
 package com.duyvukim.drowsinessalertsystem.camera;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import androidx.camera.view.PreviewView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.duyvukim.drowsinessalertsystem.detection.FaceAnalyzer;
+import com.duyvukim.drowsinessalertsystem.detection.IFaceAnalyzerCallbacks;
 import com.duyvukim.drowsinessalertsystem.detection.IssuesDetector;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
+import com.google.mlkit.vision.face.Face;
 
 public class CameraPresenter implements ICameraContract.Presenter {
 
@@ -19,6 +20,8 @@ public class CameraPresenter implements ICameraContract.Presenter {
     private ICameraContract.View view;
     private CameraFramesSource cameraFramesSource;
     private int frameClosedEyesCounter = 0;
+    private int multiplePeopleFrameCounter = 0;
+    private int headPoseProblemCounter = 0;
 
     // =========================================
     // === Constructors
@@ -40,42 +43,59 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
         // Initialize the camera and start preview
         cameraFramesSource = new CameraFramesSource(previewView, lifecycleOwner, imageProxy -> {
+            new FaceAnalyzer(new IFaceAnalyzerCallbacks() {
+                @Override
+                public void onFaceDetected(Face face) {
+                    if (face == null) return;
 
-            // If having the image proxy, then process the image
-            // through the EyeDetector
+                    // Detect isDrowsy
+                    if (IssuesDetector.isDrowsy(face)) {
+                        frameClosedEyesCounter++;
 
-            new FaceAnalyzer(face -> {
+                        // might be trigger after 200 consecutive frames closing, not everytime closing
+                        if (frameClosedEyesCounter > AppCts.Thresholds.FRAMES_CLOSED_THRESHOLD) {
 
-                frameClosedEyesCounter++;
-
-                // If not having face, return
-                if (face == null) return;
-
-                if (IssuesDetector.isDrowsy(face)) {
-                    // might be trigger after 200 consecutive frames closing, not everytime closing
-                    if (frameClosedEyesCounter > AppCts.Thresholds.FRAMES_CLOSED_THRESHOLD) {
-
-                        // TODO: implement the alarm and notification
-                        // TODO: set the flag for alarm, alarm whenever it was turned off and notification
-
-                        Log.d("Drowsiness", "Drownsy");
-                        view.showMessage("Drowsiness detected");
+//                            view.showMessage("Drowsiness detected");
+                            // TODO: send to the firestore
+                        }
+                    } else {
+                        frameClosedEyesCounter = 0;
                     }
-                } else {
-                    frameClosedEyesCounter = 0;
+
+                    // Detect is Head Pose problem here
+                    // TODO: fix the status later
+                    if (!IssuesDetector.isHeadPoseProblem(face).isBlank()) {
+                        headPoseProblemCounter++;
+                        if (headPoseProblemCounter > AppCts.Thresholds.FRAMES_HEAD_POSE_PROBLEM_THRESHOLD) {
+
+//                            view.showMessage("Head pose problem detected");
+                            // TODO: send to the firestore
+                        }
+                    } else {
+                        headPoseProblemCounter = 0;
+                    }
                 }
 
-//                    String headPoseResult = IssuesDetector.HeadPoseDetection(face); // Call the updated method
-//                    Log.d("HeadPoseDetection", "Head Pose: " + headPoseResult);
-////                    if (!headPoseResult.equals("Looking Straight") && !headPoseResult.equals("No Face Detected")) {
-////                        view.showMessage(headPoseResult);
-////                    }
+                // Detect multiple people
+                @Override
+                public void onFacesCountDetected(int facesCount) {
+                    if (facesCount > 1) {
+                        multiplePeopleFrameCounter++;
+                        if (multiplePeopleFrameCounter > AppCts.Thresholds.FRAMES_MULTIPLE_PEOPLE_THRESHOLD) {
+
+//                            view.showMessage("Number of people: " + facesCount);
+                            // TODO: send to the firestore
+                        }
+                    } else {
+                        multiplePeopleFrameCounter = 0;
+                    }
+                }
+
             }).analyzeImageFrame(imageProxy);
         });
 
         cameraFramesSource.start();
     }
-
-
-
 }
+
+

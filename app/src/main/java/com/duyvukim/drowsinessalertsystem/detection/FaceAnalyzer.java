@@ -25,8 +25,8 @@ public class FaceAnalyzer {
     // === Constructors
     // =========================================
 
-    public FaceAnalyzer(IFaceAnalyzerCallbacks faceCallback) {
-        this.faceCallback = faceCallback;
+    public FaceAnalyzer(IFaceAnalyzerCallbacks faceCallbacks) {
+        this.faceCallback = faceCallbacks;
 
         // Build the face detector with the custom options
         faceDetectorOptions = new FaceDetectorOptions.Builder()
@@ -61,9 +61,11 @@ public class FaceAnalyzer {
         // process the image
         faceDetector.process(inputImage)
                 .addOnSuccessListener(faces -> {
-                    for (Face face : faces) {
 
-//                        Log.d("FaceAnalyzer", "Face detected: " + faces.size());
+                    // pass the number of faces detected
+                    faceCallback.onFacesCountDetected(faces.size());
+
+                    for (Face face : faces) {
 
                         // pass the face to the callback if detected
                         faceCallback.onFaceDetected(face);
