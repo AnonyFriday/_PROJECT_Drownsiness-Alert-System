@@ -10,4 +10,6 @@ public interface IFaceAnalyzerCallbacks {
      * @param face
      */
     void onFaceDetected(Face face);
+
+    void onFacesCountDetected(int count);
 }

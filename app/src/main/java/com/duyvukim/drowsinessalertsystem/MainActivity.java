@@ -1,10 +1,11 @@
 package com.duyvukim.drowsinessalertsystem;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
-import android.Manifest;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +16,17 @@ import com.duyvukim.drowsinessalertsystem.databinding.ActivityMainBinding;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 
 public class MainActivity extends AppCompatActivity {
+
+    // ====================================
+    // === Fields
+    // ====================================
+
     private ActivityMainBinding binding;
+
+    // ====================================
+    // === Lifecycles
+    // ====================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,21 +34,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         checkAndRequestCameraPermission();
 
-        binding.joinExamButton.setOnClickListener(v->{
+        binding.joinExamButton.setOnClickListener(v -> {
             String code;
-            if (binding.examCodeInput.getText()!=null)
+            if (binding.examCodeInput.getText() != null)
                 code = binding.examCodeInput.getText().toString().trim();
             else {
                 binding.examCodeInput.setError("Please enter code!");
                 return ;
             }
 
-            if (code.equals(AppCts.Notifications.EXAM_CODE))
+            if (code.equals(AppCts.Identities.EXAM_CODE))
                 startActivity(new Intent(MainActivity.this, CameraActivity.class));
             else binding.examCodeInput.setError("Code isn't found");
         });
     }
-    // --- Camera Permission ---
+
+    // ====================================
+    // === Camera Permission
+    // ====================================
+
     private final ActivityResultLauncher<String> requestCameraPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
