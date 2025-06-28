@@ -2,20 +2,13 @@ package com.duyvukim.drowsinessalertsystem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.duyvukim.drowsinessalertsystem.camera.CameraActivity;
 import com.duyvukim.drowsinessalertsystem.databinding.ActivityMainBinding;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
     private TextInputEditText examCodeInput;
