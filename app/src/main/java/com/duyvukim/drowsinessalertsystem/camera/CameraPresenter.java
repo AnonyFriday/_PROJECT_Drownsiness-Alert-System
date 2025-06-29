@@ -118,4 +118,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
         cameraFramesSource.start();
     }
+
+
+
 }
