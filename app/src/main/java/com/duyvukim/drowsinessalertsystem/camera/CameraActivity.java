@@ -63,4 +63,9 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
     public void showMessage(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void updateFaceOverlaySourceInfo(int imageWidth, int imageHeight, boolean isFrontCamera) {
+//        runOnUiThread(() -> binding.faceOverlayView.setImageSourceInfo(imageWidth, imageHeight, isFrontCamera));
+    }
 }

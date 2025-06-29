@@ -1,6 +1,7 @@
 package com.duyvukim.drowsinessalertsystem.camera;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.camera.view.PreviewView;
 import androidx.lifecycle.LifecycleOwner;
@@ -12,6 +13,7 @@ import com.duyvukim.drowsinessalertsystem.services.FirestoreLoggingsService;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.google.mlkit.vision.face.Face;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,7 +25,6 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
     private ICameraContract.View view;
     private CameraFramesSource cameraFramesSource;
-    private FirestoreLoggingsService firestoreLoggingsService;
     private AtomicInteger frameClosedEyesCounter = new AtomicInteger(0);
     private AtomicInteger multiplePeopleFrameCounter = new AtomicInteger(0);
     private AtomicInteger headPoseProblemCounter = new AtomicInteger(0);
@@ -48,6 +49,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
     public void startCamera(PreviewView previewView, LifecycleOwner lifecycleOwner) {
 
         cameraFramesSource = new CameraFramesSource(previewView, lifecycleOwner, imageProxy -> {
+
             new FaceAnalyzer(new IFaceAnalyzerCallbacks() {
                 @Override
                 public void onFaceDetected(Face face) {
@@ -57,7 +59,10 @@ public class CameraPresenter implements ICameraContract.Presenter {
                     if (IssuesDetector.isDrowsy(face)) {
                         int count = frameClosedEyesCounter.incrementAndGet();
 
+                        Log.d("EyeProb", "" + count);
+
                         if (count > AppCts.Thresholds.FRAMES_CLOSED_THRESHOLD && !hasLoggedDrowsy.get()) {
+
                             hasLoggedDrowsy.set(true);
                             view.showMessage("Drowsiness detected");
                             FirestoreLoggingsService.logDetection(
@@ -66,7 +71,11 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_IS_DROWSY,
                                     ""
                             );
+
+                            return;
                         }
+
+
                     } else {
                         frameClosedEyesCounter.set(0);
                         hasLoggedDrowsy.set(false);
@@ -85,6 +94,8 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_IS_HEAD_PROBLEM,
                                     ""
                             );
+
+                            return;
                         }
                     } else {
                         headPoseProblemCounter.set(0);
@@ -93,7 +104,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
                 }
 
                 @Override
-                public void onFacesCountDetected(int facesCount) {
+                public void onMultipleFacesCountDetected(int facesCount) {
                     if (facesCount > 1) {
                         int count = multiplePeopleFrameCounter.incrementAndGet();
 
@@ -106,11 +117,18 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_MORE_THAN_ONE_PEOPLE,
                                     ""
                             );
+
+                            return;
                         }
                     } else {
                         multiplePeopleFrameCounter.set(0);
                         hasLoggedMultiplePeople.set(false);
                     }
+                }
+
+                @Override
+                public void onMultipleFacesDetected(List<Face> faces) {
+
                 }
 
             }).analyzeImageFrame(imageProxy);
