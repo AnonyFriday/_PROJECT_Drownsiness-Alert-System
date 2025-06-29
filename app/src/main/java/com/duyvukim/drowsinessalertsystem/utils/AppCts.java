@@ -15,7 +15,7 @@ public class AppCts {
     }
 
     public static class FakeUser {
-        public final static String USER_NAME = "fake_user_1";
+        public final static String USER_NAME = "Nguyễn Văn An";
         public final static String USER_STUDENTCODE = "SE123456";
     }
 

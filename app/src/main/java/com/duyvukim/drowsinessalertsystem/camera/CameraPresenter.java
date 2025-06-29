@@ -12,6 +12,9 @@ import com.duyvukim.drowsinessalertsystem.services.FirestoreLoggingsService;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.google.mlkit.vision.face.Face;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class CameraPresenter implements ICameraContract.Presenter {
 
     // =========================================
@@ -21,9 +24,12 @@ public class CameraPresenter implements ICameraContract.Presenter {
     private ICameraContract.View view;
     private CameraFramesSource cameraFramesSource;
     private FirestoreLoggingsService firestoreLoggingsService;
-    private int frameClosedEyesCounter = 0;
-    private int multiplePeopleFrameCounter = 0;
-    private int headPoseProblemCounter = 0;
+    private AtomicInteger frameClosedEyesCounter = new AtomicInteger(0);
+    private AtomicInteger multiplePeopleFrameCounter = new AtomicInteger(0);
+    private AtomicInteger headPoseProblemCounter = new AtomicInteger(0);
+    private AtomicBoolean hasLoggedDrowsy = new AtomicBoolean(false);
+    private AtomicBoolean hasLoggedMultiplePeople = new AtomicBoolean(false);
+    private AtomicBoolean hasLoggedHeadPose = new AtomicBoolean(false);
 
     // =========================================
     // === Constructors
@@ -41,9 +47,6 @@ public class CameraPresenter implements ICameraContract.Presenter {
     @Override
     public void startCamera(PreviewView previewView, LifecycleOwner lifecycleOwner) {
 
-        // TODO: Run at different executor service for detection
-
-        // Initialize the camera and start preview
         cameraFramesSource = new CameraFramesSource(previewView, lifecycleOwner, imageProxy -> {
             new FaceAnalyzer(new IFaceAnalyzerCallbacks() {
                 @Override
@@ -52,11 +55,10 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
                     // Detect isDrowsy
                     if (IssuesDetector.isDrowsy(face)) {
-                        frameClosedEyesCounter++;
+                        int count = frameClosedEyesCounter.incrementAndGet();
 
-                        // might be trigger after 200 consecutive frames closing, not everytime closing
-                        if (frameClosedEyesCounter > AppCts.Thresholds.FRAMES_CLOSED_THRESHOLD) {
-
+                        if (count > AppCts.Thresholds.FRAMES_CLOSED_THRESHOLD && !hasLoggedDrowsy.get()) {
+                            hasLoggedDrowsy.set(true);
                             view.showMessage("Drowsiness detected");
                             FirestoreLoggingsService.logDetection(
                                     AppCts.FakeUser.USER_NAME,
@@ -64,39 +66,39 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_IS_DROWSY,
                                     ""
                             );
-                            return;
                         }
                     } else {
-                        frameClosedEyesCounter = 0;
+                        frameClosedEyesCounter.set(0);
+                        hasLoggedDrowsy.set(false);
                     }
 
-                    // Detect is Head Pose problem here
-                    // TODO: fix the status later
+                    // Detect Head Pose Problem
                     if (!IssuesDetector.isHeadPoseProblem(face).isBlank()) {
-                        headPoseProblemCounter++;
-                        if (headPoseProblemCounter > AppCts.Thresholds.FRAMES_HEAD_POSE_PROBLEM_THRESHOLD) {
+                        int count = headPoseProblemCounter.incrementAndGet();
 
-//                            view.showMessage("Head pose problem detected");
-//                            FirestoreLoggingsService.logDetection(
-//                                    AppCts.FakeUser.USER_NAME,
-//                                    AppCts.FakeUser.USER_STUDENTCODE,
-//                                    AppCts.ProblemStatus.STATUS_IS_HEAD_PROBLEM,
-//                                    ""
-//                            );
-                            return;
+                        if (count > AppCts.Thresholds.FRAMES_HEAD_POSE_PROBLEM_THRESHOLD && !hasLoggedHeadPose.get()) {
+                            hasLoggedHeadPose.set(true);
+                            view.showMessage("Head pose problem detected");
+                            FirestoreLoggingsService.logDetection(
+                                    AppCts.FakeUser.USER_NAME,
+                                    AppCts.FakeUser.USER_STUDENTCODE,
+                                    AppCts.ProblemStatus.STATUS_IS_HEAD_PROBLEM,
+                                    ""
+                            );
                         }
                     } else {
-                        headPoseProblemCounter = 0;
+                        headPoseProblemCounter.set(0);
+                        hasLoggedHeadPose.set(false);
                     }
                 }
 
-                // Detect multiple people
                 @Override
                 public void onFacesCountDetected(int facesCount) {
                     if (facesCount > 1) {
-                        multiplePeopleFrameCounter++;
-                        if (multiplePeopleFrameCounter > AppCts.Thresholds.FRAMES_MULTIPLE_PEOPLE_THRESHOLD) {
+                        int count = multiplePeopleFrameCounter.incrementAndGet();
 
+                        if (count > AppCts.Thresholds.FRAMES_MULTIPLE_PEOPLE_THRESHOLD && !hasLoggedMultiplePeople.get()) {
+                            hasLoggedMultiplePeople.set(true);
                             view.showMessage("Number of people: " + facesCount);
                             FirestoreLoggingsService.logDetection(
                                     AppCts.FakeUser.USER_NAME,
@@ -104,10 +106,10 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_MORE_THAN_ONE_PEOPLE,
                                     ""
                             );
-                            return;
                         }
                     } else {
-                        multiplePeopleFrameCounter = 0;
+                        multiplePeopleFrameCounter.set(0);
+                        hasLoggedMultiplePeople.set(false);
                     }
                 }
 
@@ -117,5 +119,3 @@ public class CameraPresenter implements ICameraContract.Presenter {
         cameraFramesSource.start();
     }
 }
-
-
