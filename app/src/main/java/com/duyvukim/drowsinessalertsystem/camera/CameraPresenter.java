@@ -59,6 +59,8 @@ public class CameraPresenter implements ICameraContract.Presenter {
                             Log.d("Drowsiness", "Drownsy");
                             view.showMessage("Drowsiness detected");
                         }
+                    } else {
+                        frameClosedEyesCounter = 0;
                     }
 
                     String headPoseResult = IssuesDetector.HeadPoseDetection(face); // Call the updated method
@@ -67,8 +69,6 @@ public class CameraPresenter implements ICameraContract.Presenter {
 //                        view.showMessage(headPoseResult);
 //                    }
 
-                } else {
-                    frameClosedEyesCounter = 0;
                 }
             }).analyzeImageFrame(imageProxy);
         });

@@ -4,7 +4,7 @@ public class AppCts {
     public static class Notifications {
         public final static String NOTIFICATION_CHANNEL = "drowsy_alert";
         public final static int NOTIFICATION_ID = 2001;
-        public final static String EXAM_CODE = "12345";
+        public final static String EXAM_CODE = "111111";
     }
 
     public static class Thresholds {
