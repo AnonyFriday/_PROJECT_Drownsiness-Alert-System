@@ -28,6 +28,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
     private ICameraContract.View view;
     private CameraFramesSource cameraFramesSource;
 
+    private Context context;
     private SoundAlertPlayer soundAlertPlayer;
     private AtomicInteger frameClosedEyesCounter = new AtomicInteger(0);
     private AtomicInteger multiplePeopleFrameCounter = new AtomicInteger(0);
@@ -42,6 +43,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
     public CameraPresenter(ICameraContract.View view, Context context) {
         this.view = view;
+        this.context = context;
         this.soundAlertPlayer = new SoundAlertPlayer();
         soundAlertPlayer.init(context);
     }
@@ -72,6 +74,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
                             hasLoggedDrowsy.set(true);
                             view.showMessage("Drowsiness detected");
 
+                            // firebase
                             FirestoreLoggingsService.logDetection(
                                     AppCts.FakeUser.USER_NAME,
                                     AppCts.FakeUser.USER_STUDENTCODE,
@@ -79,6 +82,7 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     ""
                             );
 
+                            // sound
                             soundAlertPlayer.playSound();
                         }
                     } else {

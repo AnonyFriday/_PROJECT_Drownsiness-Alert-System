@@ -5,10 +5,8 @@ import static androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,7 +23,6 @@ import com.duyvukim.drowsinessalertsystem.camera.CameraActivity;
 import com.duyvukim.drowsinessalertsystem.databinding.ActivityMainBinding;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.duyvukim.drowsinessalertsystem.utils.PassTextWatcher;
-import com.duyvukim.drowsinessalertsystem.utils.ScreenShot;
 import com.duyvukim.drowsinessalertsystem.utils.SoundAlertPlayer;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,19 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 //            player.playSound();
-
-
-            ScreenShot.capture(this, new ScreenShot.ScreenShotCallback() {
-                @Override
-                public void onScreenShot(Bitmap bitmap) {
-                    Log.d("ScreenShot", "Bitmap:" + bitmap.toString());
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    //TODO: handle error
-                }
-            });
         });
 
     }
