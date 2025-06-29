@@ -13,7 +13,7 @@ import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class NotificationFMService extends FirebaseMessagingService {
+public class NotificationsService extends FirebaseMessagingService {
 
     /**
      * Called when a message is received.

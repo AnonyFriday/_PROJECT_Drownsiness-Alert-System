@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import com.duyvukim.drowsinessalertsystem.camera.CameraActivity;
 import com.duyvukim.drowsinessalertsystem.databinding.ActivityMainBinding;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
+import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CameraActivity.class));
             else binding.examCodeInput.setError("Code isn't found");
         });
+
+        FirebaseApp.initializeApp(this);
     }
 
     // ====================================
