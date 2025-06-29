@@ -2,6 +2,8 @@ package com.duyvukim.drowsinessalertsystem.detection;
 
 import com.google.mlkit.vision.face.Face;
 
+import java.util.List;
+
 public interface IFaceAnalyzerCallbacks {
 
     /**
@@ -11,5 +13,7 @@ public interface IFaceAnalyzerCallbacks {
      */
     void onFaceDetected(Face face);
 
-    void onFacesCountDetected(int count);
+    void onMultipleFacesCountDetected(int count);
+
+    void onMultipleFacesDetected(List<Face> faces);
 }

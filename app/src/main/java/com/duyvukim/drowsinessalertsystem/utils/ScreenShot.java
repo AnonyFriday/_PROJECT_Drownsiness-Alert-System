@@ -12,6 +12,7 @@ import android.view.Window;
 public class ScreenShot {
     public interface ScreenShotCallback {
         void onScreenShot(Bitmap bitmap);
+
         void onError(Exception e);
     }
 

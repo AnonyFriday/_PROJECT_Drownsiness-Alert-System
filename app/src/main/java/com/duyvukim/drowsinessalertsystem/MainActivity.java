@@ -2,6 +2,8 @@ package com.duyvukim.drowsinessalertsystem;
 
 import static androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener;
 
+import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -9,18 +11,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-import android.Manifest;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.duyvukim.drowsinessalertsystem.camera.CameraActivity;
 import com.duyvukim.drowsinessalertsystem.databinding.ActivityMainBinding;
+import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.duyvukim.drowsinessalertsystem.utils.PassTextWatcher;
 import com.duyvukim.drowsinessalertsystem.utils.ScreenShot;
 import com.duyvukim.drowsinessalertsystem.utils.SoundAlertPlayer;
@@ -57,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 // Custom logic here
                 // For example, show a confirmation dialog
                 binding.quittingCard.setVisibility(View.VISIBLE);
-                binding.noButton.setOnClickListener(v->binding.quittingCard.setVisibility(View.GONE));
-                binding.yesButton.setOnClickListener(v->finishAffinity());
+                binding.noButton.setOnClickListener(v -> binding.quittingCard.setVisibility(View.GONE));
+                binding.yesButton.setOnClickListener(v -> finishAffinity());
             }
         });
 
@@ -69,16 +72,16 @@ public class MainActivity extends AppCompatActivity {
         SoundAlertPlayer player = new SoundAlertPlayer();
 
         player.init(this);
-        binding.joinExamButton.setOnClickListener(v->{
-//            if (pass==null || pass.isEmpty()) setUpError();
-//
-//            if (pass.equals(AppCts.Notifications.EXAM_CODE)) {
-//                showLoading();
-//                startActivity(new Intent(MainActivity.this, CameraActivity.class));
-//            } else {
-//                Toast.makeText(this, "Code not found!", Toast.LENGTH_SHORT).show();
-//                clearInput();
-//            }
+        binding.joinExamButton.setOnClickListener(v -> {
+            if (pass == null || pass.isEmpty()) setUpError();
+
+            if (pass.equals(AppCts.Identities.EXAM_CODE)) {
+                showLoading();
+                startActivity(new Intent(MainActivity.this, CameraActivity.class));
+            } else {
+                Toast.makeText(this, "Code not found!", Toast.LENGTH_SHORT).show();
+                clearInput();
+            }
 
 
 //            player.playSound();
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             ScreenShot.capture(this, new ScreenShot.ScreenShotCallback() {
                 @Override
                 public void onScreenShot(Bitmap bitmap) {
-                    Log.d("ScreenShot","Bitmap:" + bitmap.toString());
+                    Log.d("ScreenShot", "Bitmap:" + bitmap.toString());
                 }
 
                 @Override
@@ -218,6 +221,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 binding.progressBar.setVisibility(View.GONE);
             }
-        },3000);
+        }, 3000);
     }
 }

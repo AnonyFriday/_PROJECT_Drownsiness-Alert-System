@@ -13,6 +13,8 @@ public interface ICameraContract {
         void showAlert();
 
         void showMessage(String msg);
+
+        void updateFaceOverlaySourceInfo(int imageWidth, int imageHeight, boolean isFrontCamera);
     }
 
     // =========================================

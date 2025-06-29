@@ -62,8 +62,13 @@ public class FaceAnalyzer {
         faceDetector.process(inputImage)
                 .addOnSuccessListener(faces -> {
 
+                    if (faces.size() <= 0) return;
+
                     // pass the number of faces detected
-                    faceCallback.onFacesCountDetected(faces.size());
+                    faceCallback.onMultipleFacesCountDetected(faces.size());
+
+                    // pass the list of faces for rendering overlay
+//                    faceCallback.onMultipleFacesDetected(faces);
 
                     for (Face face : faces) {
 

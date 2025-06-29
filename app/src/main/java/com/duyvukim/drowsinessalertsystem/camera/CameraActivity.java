@@ -1,6 +1,6 @@
 package com.duyvukim.drowsinessalertsystem.camera;
 
-import static androidx.core.view.ViewCompat.*;
+import static androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
+
 import androidx.core.view.WindowInsetsCompat;
 
 import com.duyvukim.drowsinessalertsystem.MainActivity;
@@ -92,6 +92,11 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
         binding.statusText.setText(msg);
         binding.statusText.setTextColor(Color.RED);
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateFaceOverlaySourceInfo(int imageWidth, int imageHeight, boolean isFrontCamera) {
+
     }
 
     public void showLoading() {
