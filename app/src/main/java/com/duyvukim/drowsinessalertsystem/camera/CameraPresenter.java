@@ -65,17 +65,14 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
                             hasLoggedDrowsy.set(true);
                             view.showMessage("Drowsiness detected");
+
                             FirestoreLoggingsService.logDetection(
                                     AppCts.FakeUser.USER_NAME,
                                     AppCts.FakeUser.USER_STUDENTCODE,
                                     AppCts.ProblemStatus.STATUS_IS_DROWSY,
                                     ""
                             );
-
-                            return;
                         }
-
-
                     } else {
                         frameClosedEyesCounter.set(0);
                         hasLoggedDrowsy.set(false);
@@ -94,8 +91,6 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_IS_HEAD_PROBLEM,
                                     ""
                             );
-
-                            return;
                         }
                     } else {
                         headPoseProblemCounter.set(0);
@@ -117,8 +112,6 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_MORE_THAN_ONE_PEOPLE,
                                     ""
                             );
-
-                            return;
                         }
                     } else {
                         multiplePeopleFrameCounter.set(0);
@@ -136,4 +129,6 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
         cameraFramesSource.start();
     }
+
+
 }

@@ -7,7 +7,7 @@ public class AppCts {
     }
 
     public static class Identities {
-        public final static String EXAM_CODE = "12345";
+        public final static String EXAM_CODE = "111111";
     }
 
     public static class Firebase {
@@ -26,11 +26,11 @@ public class AppCts {
     }
 
     public static class Thresholds {
-        public final static int FRAMES_CLOSED_THRESHOLD = 200;
-        public final static int FRAMES_MULTIPLE_PEOPLE_THRESHOLD = 200;
+        public final static int FRAMES_CLOSED_THRESHOLD = 100;
+        public final static int FRAMES_MULTIPLE_PEOPLE_THRESHOLD = 100;
         public static final int FRAMES_HEAD_POSE_PROBLEM_THRESHOLD = 200;
-        public final static float LEFT_EYE_CLOSED_THRESHOLD = 0.2f;
-        public final static float RIGHT_EYE_CLOSED_THRESHOLD = 0.2f;
+        public final static float LEFT_EYE_CLOSED_THRESHOLD = 0.4f;
+        public final static float RIGHT_EYE_CLOSED_THRESHOLD = 0.4f;
 
     }
 }
