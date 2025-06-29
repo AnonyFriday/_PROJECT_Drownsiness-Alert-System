@@ -6,11 +6,17 @@ import com.duyvukim.drowsinessalertsystem.utils.AppCts;
 import com.google.mlkit.vision.face.Face;
 
 public class IssuesDetector {
-    public static String HeadPoseDetection (Face face) {
+
+    /**
+     * Detect the problem with the head pose
+     *
+     * @param face
+     * @return
+     */
+    public static String isHeadPoseProblem(Face face) {
         float HEAD_YAW_THRESHOLD = 60.0f; // Rotation around Y-axis (left-right head turn)
         float HEAD_PITCH_THRESHOLD = 60.0f; // Rotation around X-axis (up-down head tilt)
         float HEAD_ROLL_THRESHOLD = 45.0f; // Rotation around Z-axis (sideways head tilt)
-
 
         float headYaw = face.getHeadEulerAngleY();   // Y-axis rotation (left/right)
         float headPitch = face.getHeadEulerAngleX(); // X-axis rotation (up/down)
@@ -44,8 +50,13 @@ public class IssuesDetector {
 
         // If no significant head turn or tilt is detected
         return "Looking Straight";
-
     }
+
+    /**
+     * Detect the drowsiness
+     * @param face
+     * @return
+     */
     public static boolean isDrowsy(Face face) {
 
         Float leftProb = face.getLeftEyeOpenProbability();

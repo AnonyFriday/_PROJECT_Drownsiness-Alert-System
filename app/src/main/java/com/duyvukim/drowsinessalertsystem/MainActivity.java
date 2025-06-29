@@ -13,6 +13,7 @@ import android.Manifest;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +26,18 @@ import com.duyvukim.drowsinessalertsystem.utils.ScreenShot;
 import com.duyvukim.drowsinessalertsystem.utils.SoundAlertPlayer;
 
 public class MainActivity extends AppCompatActivity {
+
+    // ====================================
+    // === Fields
+    // ====================================
+
     private ActivityMainBinding binding;
     private String pass;
+
+    // ====================================
+    // === Lifecycles
+    // ====================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkAndRequestCameraPermission();
         checkAndRequestNotificationPermission();
-
         setUpPassInput();
 
         SoundAlertPlayer player = new SoundAlertPlayer();
@@ -89,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     private void setUpPassInput() {
         binding.digit1.addTextChangedListener(new PassTextWatcher(binding.digit1, binding.digit2));
         binding.digit2.addTextChangedListener(new PassTextWatcher(binding.digit2, binding.digit3));
@@ -108,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private String getOtpCode() {
         StringBuilder sb = new StringBuilder();
         sb.append(binding.digit1.getText().toString());
@@ -118,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
         sb.append(binding.digit6.getText().toString());
         return sb.toString();
     }
-
 
     private void setUpError() {
         binding.digit1.setError("");
@@ -141,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
         // Tùy chọn: Chuyển focus về ô đầu tiên sau khi xóa
         binding.digit1.requestFocus();
     }
+
+    // ====================================
+    // === Camera Permission
+    // ====================================
 
     // --- Camera Permission ---
     private final ActivityResultLauncher<String> requestCameraPermissionLauncher =

@@ -12,6 +12,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.duyvukim.drowsinessalertsystem.MainActivity;
@@ -72,6 +73,9 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
             presenter.startCamera(binding.previewView, this);
         });
 
+        // TODO: ask for camera permission setup
+
+        // TODO: ask for notification permission setup
     }
 
     // =========================================
