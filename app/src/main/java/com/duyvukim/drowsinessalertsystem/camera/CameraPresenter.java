@@ -1,6 +1,7 @@
 package com.duyvukim.drowsinessalertsystem.camera;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.camera.view.PreviewView;
@@ -11,6 +12,7 @@ import com.duyvukim.drowsinessalertsystem.detection.IFaceAnalyzerCallbacks;
 import com.duyvukim.drowsinessalertsystem.detection.IssuesDetector;
 import com.duyvukim.drowsinessalertsystem.services.FirestoreLoggingsService;
 import com.duyvukim.drowsinessalertsystem.utils.AppCts;
+import com.duyvukim.drowsinessalertsystem.utils.SoundAlertPlayer;
 import com.google.mlkit.vision.face.Face;
 
 import java.util.List;
@@ -25,6 +27,8 @@ public class CameraPresenter implements ICameraContract.Presenter {
 
     private ICameraContract.View view;
     private CameraFramesSource cameraFramesSource;
+
+    private SoundAlertPlayer soundAlertPlayer;
     private AtomicInteger frameClosedEyesCounter = new AtomicInteger(0);
     private AtomicInteger multiplePeopleFrameCounter = new AtomicInteger(0);
     private AtomicInteger headPoseProblemCounter = new AtomicInteger(0);
@@ -36,8 +40,10 @@ public class CameraPresenter implements ICameraContract.Presenter {
     // === Constructors
     // =========================================
 
-    public CameraPresenter(ICameraContract.View view) {
+    public CameraPresenter(ICameraContract.View view, Context context) {
         this.view = view;
+        this.soundAlertPlayer = new SoundAlertPlayer();
+        soundAlertPlayer.init(context);
     }
 
     // =========================================
@@ -72,6 +78,8 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_IS_DROWSY,
                                     ""
                             );
+
+                            soundAlertPlayer.playSound();
                         }
                     } else {
                         frameClosedEyesCounter.set(0);
@@ -91,6 +99,8 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_IS_HEAD_PROBLEM,
                                     ""
                             );
+
+                            soundAlertPlayer.playSound();
                         }
                     } else {
                         headPoseProblemCounter.set(0);
@@ -112,7 +122,11 @@ public class CameraPresenter implements ICameraContract.Presenter {
                                     AppCts.ProblemStatus.STATUS_MORE_THAN_ONE_PEOPLE,
                                     ""
                             );
+
+                            soundAlertPlayer.playSound();
                         }
+
+
                     } else {
                         multiplePeopleFrameCounter.set(0);
                         hasLoggedMultiplePeople.set(false);

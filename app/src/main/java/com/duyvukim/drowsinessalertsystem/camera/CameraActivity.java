@@ -12,7 +12,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
-
 import androidx.core.view.WindowInsetsCompat;
 
 import com.duyvukim.drowsinessalertsystem.MainActivity;
@@ -53,11 +52,13 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
             }
         });
 
+        // Setup Sounds
+
+
         // Setup bindings
         binding = ActivityCameraBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.attentionCard.setVisibility(View.VISIBLE);
-
 
         setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -67,7 +68,7 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
         binding.gotItButton.setOnClickListener(v->{
             binding.attentionCard.setVisibility(View.GONE);
             // Setup presenter
-            presenter = new CameraPresenter(this);
+            presenter = new CameraPresenter(this, this);
 
             // Start the camera stream
             presenter.startCamera(binding.previewView, this);
