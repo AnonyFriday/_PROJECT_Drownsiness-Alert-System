@@ -3,8 +3,10 @@ package com.duyvukim.drowsinessalertsystem.camera;
 import static androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.duyvukim.drowsinessalertsystem.MainActivity;
 import com.duyvukim.drowsinessalertsystem.databinding.ActivityCameraBinding;
+import com.duyvukim.drowsinessalertsystem.utils.ScreenShot;
 
 public class CameraActivity extends AppCompatActivity implements ICameraContract.View {
 
@@ -54,7 +57,6 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
 
         // Setup Sounds
 
-
         // Setup bindings
         binding = ActivityCameraBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -65,6 +67,7 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         binding.gotItButton.setOnClickListener(v->{
             binding.attentionCard.setVisibility(View.GONE);
             // Setup presenter
@@ -73,10 +76,6 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
             // Start the camera stream
             presenter.startCamera(binding.previewView, this);
         });
-
-        // TODO: ask for camera permission setup
-
-        // TODO: ask for notification permission setup
     }
 
     // =========================================
@@ -93,6 +92,18 @@ public class CameraActivity extends AppCompatActivity implements ICameraContract
         binding.statusText.setText(msg);
         binding.statusText.setTextColor(Color.RED);
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+
+        ScreenShot.capture(this, new ScreenShot.ScreenShotCallback() {
+            @Override
+            public void onScreenShot(Bitmap bitmap) {
+                Log.d("ScreenShot", "Bitmap:" + bitmap.toString());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //TODO: handle error
+            }
+        });
     }
 
     @Override
